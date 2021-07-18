@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: eshop-inventory
+  datasource:
+    url: jdbc:mysql://localhost:3306/eshop?serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  redis:
+    cluster:
+      nodes:
+        - 192.168.31.11:7001
+        - 192.168.31.11:7002
+        - 192.168.31.12:7003
+        - 192.168.31.12:7004
+        - 192.168.31.13:7005
+        - 192.168.31.13:7006
+  kafka:
+    consumer:
+      bootstrap-servers:
+        - 192.168.31.11:9092
+        - 192.168.31.12:9092
+        - 192.168.31.13:9092
+      group-id: eshop-cache
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      type: batch
+
+
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  type-aliases-package: com.alwin.eshop.inventory.model
+  configuration:
+    map-underscore-to-camel-case: true
